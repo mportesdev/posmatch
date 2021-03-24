@@ -17,7 +17,9 @@ def pos_match(cls=None, /, *, force=False):
     """
     if cls:
         # decorator used in the form @pos_match
-        return cls if hasattr(cls, '__match_args__') else set_match_args(cls)
+        if not hasattr(cls, '__match_args__'):
+            set_match_args(cls)
+        return cls
 
     if force:
         # decorator used in the form @pos_match(force=True)
@@ -39,4 +41,6 @@ def set_match_args(cls):
 class PosMatchMeta(type):
     def __new__(mcs, name, bases, dct):
         cls = super().__new__(mcs, name, bases, dct)
-        return cls if hasattr(cls, '__match_args__') else set_match_args(cls)
+        if not hasattr(cls, '__match_args__'):
+            set_match_args(cls)
+        return cls
