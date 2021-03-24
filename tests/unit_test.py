@@ -6,6 +6,7 @@ from posmatch import pos_match, PosMatchMeta
 
 
 def test_simple_init():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -19,6 +20,7 @@ def test_simple_init():
 
 
 def test_init_with_all_kinds_of_args():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -32,6 +34,7 @@ def test_init_with_all_kinds_of_args():
 
 
 def test_init_with_args_and_kwargs():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -45,6 +48,7 @@ def test_init_with_args_and_kwargs():
 
 
 def test_call_to_decorator_with_no_args():
+    """Test `pos_match` decorator."""
 
     @pos_match()
     class Class:
@@ -58,6 +62,7 @@ def test_call_to_decorator_with_no_args():
 
 
 def test_existing_match_args_not_overwritten():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -73,6 +78,7 @@ def test_existing_match_args_not_overwritten():
 
 
 def test_force_overwrite_existing_match_args():
+    """Test `pos_match` decorator."""
 
     @pos_match(force=True)
     class Class:
@@ -88,6 +94,7 @@ def test_force_overwrite_existing_match_args():
 
 
 def test_inherited_match_args_not_overridden():
+    """Test `pos_match` decorator."""
 
     class BaseClass:
         def __init__(self, a, b):
@@ -107,6 +114,7 @@ def test_inherited_match_args_not_overridden():
 
 
 def test_force_override_inherited_match_args():
+    """Test `pos_match` decorator."""
 
     class BaseClass:
         def __init__(self, a, b):
@@ -128,6 +136,7 @@ def test_force_override_inherited_match_args():
 
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_simple_class_pattern_matching_one_attribute():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -143,6 +152,7 @@ def test_simple_class_pattern_matching_one_attribute():
 
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_simple_class_pattern_matching_two_attributes():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -158,6 +168,7 @@ def test_simple_class_pattern_matching_two_attributes():
 
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_pattern_matching_one_attribute():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -173,6 +184,7 @@ def test_pattern_matching_one_attribute():
 
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_pattern_matching_two_attributes():
+    """Test `pos_match` decorator."""
 
     @pos_match
     class Class:
@@ -187,6 +199,7 @@ def test_pattern_matching_two_attributes():
 
 
 def test_meta_simple_init():
+    """Test `PosMatchMeta` metaclass."""
 
     class Class(metaclass=PosMatchMeta):
         def __init__(self, x, y):
@@ -199,6 +212,7 @@ def test_meta_simple_init():
 
 
 def test_meta_init_with_all_kinds_of_args():
+    """Test `PosMatchMeta` metaclass."""
 
     class Class(metaclass=PosMatchMeta):
         def __init__(self, a, /, b, *c, d, e=None, **f):
@@ -211,6 +225,7 @@ def test_meta_init_with_all_kinds_of_args():
 
 
 def test_meta_init_with_args_and_kwargs():
+    """Test `PosMatchMeta` metaclass."""
 
     class Class(metaclass=PosMatchMeta):
         def __init__(self, *args, **kwargs):
@@ -223,6 +238,7 @@ def test_meta_init_with_args_and_kwargs():
 
 
 def test_meta_existing_match_args_not_overwritten():
+    """Test `PosMatchMeta` metaclass."""
 
     class Class(metaclass=PosMatchMeta):
         def __init__(self, a, b):
@@ -237,6 +253,7 @@ def test_meta_existing_match_args_not_overwritten():
 
 
 def test_meta_inherited_match_args_not_overridden():
+    """Test `PosMatchMeta` metaclass."""
 
     class BaseClass:
         def __init__(self, a, b):
