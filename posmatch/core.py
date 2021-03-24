@@ -34,3 +34,9 @@ def set_match_args(cls):
     # do not include the first parameter (self)
     setattr(cls, '__match_args__', param_names[1:])
     return cls
+
+
+class PosMatchMeta(type):
+    def __new__(mcs, name, bases, dct):
+        cls = super().__new__(mcs, name, bases, dct)
+        return cls if hasattr(cls, '__match_args__') else set_match_args(cls)

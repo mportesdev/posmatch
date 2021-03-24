@@ -2,7 +2,7 @@ import sys
 
 import pytest
 
-from posmatch import pos_match
+from posmatch import pos_match, PosMatchMeta
 
 
 def test_simple_init():
@@ -184,3 +184,71 @@ def test_pattern_matching_two_attributes():
 
     instance = Class('bar', b=[], d=42)
     assert match_two(instance) == ('bar', [])
+
+
+def test_meta_simple_init():
+
+    class Class(metaclass=PosMatchMeta):
+        def __init__(self, x, y):
+            ...
+
+    assert Class.__match_args__ == ('x', 'y')
+
+    instance = Class(1, 2)
+    assert instance.__match_args__ == ('x', 'y')
+
+
+def test_meta_init_with_all_kinds_of_args():
+
+    class Class(metaclass=PosMatchMeta):
+        def __init__(self, a, /, b, *c, d, e=None, **f):
+            ...
+
+    assert Class.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
+
+    instance = Class(1, 2, 3, d=4)
+    assert instance.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
+
+
+def test_meta_init_with_args_and_kwargs():
+
+    class Class(metaclass=PosMatchMeta):
+        def __init__(self, *args, **kwargs):
+            ...
+
+    assert Class.__match_args__ == ('args', 'kwargs')
+
+    instance = Class(1, 2, c=3)
+    assert instance.__match_args__ == ('args', 'kwargs')
+
+
+def test_meta_existing_match_args_not_overwritten():
+
+    class Class(metaclass=PosMatchMeta):
+        def __init__(self, a, b):
+            ...
+
+        __match_args__ = ('x', 'y')
+
+    assert Class.__match_args__ == ('x', 'y')
+
+    instance = Class(1, 2)
+    assert instance.__match_args__ == ('x', 'y')
+
+
+def test_meta_inherited_match_args_not_overridden():
+
+    class BaseClass:
+        def __init__(self, a, b):
+            ...
+
+        __match_args__ = ('a', 'b', 'c')
+
+    class SubClass(BaseClass, metaclass=PosMatchMeta):
+        def __init__(self, x, y):
+            super().__init__(x, y)
+
+    assert SubClass.__match_args__ == ('a', 'b', 'c')
+
+    instance = SubClass(1, 2)
+    assert instance.__match_args__ == ('a', 'b', 'c')
