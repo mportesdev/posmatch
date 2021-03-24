@@ -2,12 +2,12 @@ import sys
 
 import pytest
 
-from posmatch.core import auto_match_args
+from posmatch import pos_match
 
 
 def test_simple_init():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, x, y):
             ...
@@ -20,7 +20,7 @@ def test_simple_init():
 
 def test_init_with_all_kinds_of_args():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, a, /, b, *c, d, e=None, **f):
             ...
@@ -33,7 +33,7 @@ def test_init_with_all_kinds_of_args():
 
 def test_init_with_args_and_kwargs():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, *args, **kwargs):
             ...
@@ -46,7 +46,7 @@ def test_init_with_args_and_kwargs():
 
 def test_call_to_decorator_with_no_args():
 
-    @auto_match_args()
+    @pos_match()
     class Class:
         def __init__(self, x, y):
             ...
@@ -59,7 +59,7 @@ def test_call_to_decorator_with_no_args():
 
 def test_existing_match_args_not_overwritten():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, a, b):
             ...
@@ -74,7 +74,7 @@ def test_existing_match_args_not_overwritten():
 
 def test_force_overwrite_existing_match_args():
 
-    @auto_match_args(force=True)
+    @pos_match(force=True)
     class Class:
         def __init__(self, a, b):
             ...
@@ -95,7 +95,7 @@ def test_inherited_match_args_not_overridden():
 
         __match_args__ = ('a', 'b', 'c')
 
-    @auto_match_args
+    @pos_match
     class SubClass(BaseClass):
         def __init__(self, x, y):
             super().__init__(x, y)
@@ -114,7 +114,7 @@ def test_force_override_inherited_match_args():
 
         __match_args__ = ('a', 'b', 'c')
 
-    @auto_match_args(force=True)
+    @pos_match(force=True)
     class SubClass(BaseClass):
         def __init__(self, x, y):
             super().__init__(x, y)
@@ -129,7 +129,7 @@ def test_force_override_inherited_match_args():
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_simple_class_pattern_matching_one_attribute():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, x, y):
             self.x = x
@@ -144,7 +144,7 @@ def test_simple_class_pattern_matching_one_attribute():
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_simple_class_pattern_matching_two_attributes():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, x, y):
             self.x = x
@@ -159,7 +159,7 @@ def test_simple_class_pattern_matching_two_attributes():
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_pattern_matching_one_attribute():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, a, /, b, *c, d, e=None, **f):
             self.a = a
@@ -174,7 +174,7 @@ def test_pattern_matching_one_attribute():
 @pytest.mark.skipif(sys.version_info < (3, 10), reason='requires Py 3.10+')
 def test_pattern_matching_two_attributes():
 
-    @auto_match_args
+    @pos_match
     class Class:
         def __init__(self, a, /, b, *c, d, e=None, **f):
             self.a = a

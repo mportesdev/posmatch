@@ -5,7 +5,7 @@ Enable positional subpattern matching for objects of custom classes.
 import inspect
 
 
-def auto_match_args(cls=None, /, *, force=False):
+def pos_match(cls=None, /, *, force=False):
     """Decorator to set `__match_args__` attribute to class `cls`.
 
     `__match_args__` will contain a sequence of names equal to
@@ -24,13 +24,12 @@ def auto_match_args(cls=None, /, *, force=False):
         return cls
 
     if cls:
-        # decorator used in the form @auto_match_args
+        # decorator used in the form @pos_match
         return cls if hasattr(cls, '__match_args__') else set_match_args(cls)
 
     if force:
-        # decorator used in the form @auto_match_args(force=True)
+        # decorator used in the form @pos_match(force=True)
         return set_match_args
 
-    # @auto_match_args(), @auto_match_args(force=False) or equivalent
-    # usage
-    return auto_match_args
+    # @pos_match(), @pos_match(force=False) or equivalent usage
+    return pos_match
