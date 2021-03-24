@@ -1,8 +1,20 @@
+"""
+Enable positional subpattern matching for objects of custom classes.
+"""
+
 import inspect
 
 
 def auto_match_args(cls=None, /, *, force=False):
+    """Decorator to set `__match_args__` attribute to class `cls`.
 
+    `__match_args__` will contain a sequence of names equal to
+    parameter names in the signature of `cls.__init__`.
+
+    If `cls` already has the `__match_args__` attribute (inherited or
+    defined on its own) it will not be set, unless `force` is set to
+    True.
+    """
     def set_match_args(cls):
         init_params = inspect.signature(cls.__init__).parameters
         param_names = tuple(init_params.keys())
