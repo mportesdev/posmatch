@@ -8,6 +8,13 @@ Python 3.8 or higher.
 **Note:** This package itself does not require Python 3.10, but its usage only
 makes sense with the new pattern matching feature introduced in Python 3.10.
 
+Installation
+------------
+
+.. code::
+
+    pip install posmatch
+
 Usage
 -----
 
