@@ -1,0 +1,33 @@
+# coding: utf-8
+
+from pathlib import Path
+from setuptools import setup
+
+import posmatch
+
+long_description = Path('README.rst').read_text()
+
+setup(
+    name='posmatch',
+    version=posmatch.__version__,
+    author='Michal Porteš',
+    author_email='michalportes1@gmail.com',
+    description='Positional subpattern matching for custom classes.',
+    long_description=long_description,
+    long_description_content_type='text/x-rst',
+    url='https://github.com/mportesdev/posmatch',
+    license='MIT License',
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Operating System :: OS Independent',
+        'License :: OSI Approved :: MIT License',
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
+    packages=['posmatch'],
+    python_requires='>=3.8',
+)
