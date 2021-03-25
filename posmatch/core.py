@@ -44,3 +44,10 @@ class PosMatchMeta(type):
         if not hasattr(cls, '__match_args__'):
             _set_match_args(cls)
         return cls
+
+
+class PosMatchMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not hasattr(self.__class__, '__match_args__'):
+            _set_match_args(self.__class__)
