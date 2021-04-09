@@ -1,15 +1,22 @@
 """
 Enable positional subpattern matching for objects of custom classes.
+
+This module provides the following functions and classes:
+
+  pos_match      -  class decorator setting the `__match_args__` attribute
+  PosMatchMeta   -  metaclass setting the `__match_args__` attribute
+  PosMatchMixin  -  mix-in class setting the `__match_args__` attribute
 """
 
 import inspect
 
 
 def pos_match(cls=None, /, *, force=False):
-    """Decorator to set `__match_args__` attribute to class `cls`.
+    """Decorator to set `__match_args__` attribute to class.
 
     `__match_args__` will contain a sequence of names equal to
-    parameter names in the signature of `cls.__init__`.
+    parameter names in the signature of `cls.__init__` (not including
+    `self`).
 
     If `cls` already has the `__match_args__` attribute (inherited or
     defined on its own) it will not be set, unless `force` is set to
@@ -39,6 +46,7 @@ def _set_match_args(cls):
 
 
 class PosMatchMeta(type):
+    """Metaclass to set `__match_args__` attribute to class."""
     def __new__(mcs, name, bases, dct):
         cls = super().__new__(mcs, name, bases, dct)
         if not hasattr(cls, '__match_args__'):
@@ -47,6 +55,7 @@ class PosMatchMeta(type):
 
 
 class PosMatchMixin:
+    """Mix-in class to set `__match_args__` attribute to subclass."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not hasattr(self.__class__, '__match_args__'):

@@ -1,12 +1,18 @@
 Positional subpattern matching for custom classes.
 
+**Note:** This is mostly a toy project. Using it will save you one line
+of boiler-plate code at the cost of an additional decorator or argument.
+In many cases, the problem this package solves can be more easily solved
+using a dataclass.
+
 Requirements
 ------------
 
 Python 3.8 or higher.
 
-**Note:** This package itself does not require Python 3.10, but its usage only
-makes sense with the new pattern matching feature introduced in Python 3.10.
+**Note:** Although this package itself does not require Python 3.10,
+its usage only makes sense with the new pattern matching feature
+introduced in Python 3.10.
 
 Installation
 ------------
@@ -18,10 +24,8 @@ Installation
 Usage
 -----
 
-Example 1
-~~~~~~~~~
-
-Using the ``pos_match`` decorator.
+The ``pos_match`` decorator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -50,10 +54,8 @@ Result:
 
     shade of grey
 
-Example 2
-~~~~~~~~~
-
-Using the ``PosMatchMeta`` metaclass.
+The ``PosMatchMeta`` metaclass
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -82,10 +84,8 @@ Result:
 
     shade of blue
 
-Example 3
-~~~~~~~~~
-
-Using the ``PosMatchMixin`` mix-in class.
+The ``PosMatchMixin`` mix-in class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
