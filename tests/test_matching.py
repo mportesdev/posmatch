@@ -48,8 +48,3 @@ class TestPosMatch:
 class TestPosMatchMeta:
     """Test the `PosMatchMeta` metaclass."""
     ...
-
-
-class TestPosMatchDecorator:
-    """Test the `PosMatchMixin` mix-in class."""
-    ...

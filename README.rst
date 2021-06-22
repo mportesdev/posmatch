@@ -83,34 +83,3 @@ Result:
 .. code::
 
     shade of blue
-
-The ``PosMatchMixin`` mix-in class
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-    from posmatch import PosMatchMixin
-
-
-    class Color(PosMatchMixin):
-
-        def __init__(self, r, g, b):
-            super().__init__()
-            self.r = r
-            self.g = g
-            self.b = b
-
-
-    color = Color(255, 0, 0)
-
-    match color:
-        case Color(r, 0, 0):
-            print('shade of red')
-        case _:
-            print('other color')
-
-Result:
-
-.. code::
-
-    shade of red

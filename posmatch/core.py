@@ -5,7 +5,6 @@ This module provides the following functions and classes:
 
   pos_match      -  class decorator setting the `__match_args__` attribute
   PosMatchMeta   -  metaclass setting the `__match_args__` attribute
-  PosMatchMixin  -  mix-in class setting the `__match_args__` attribute
 """
 
 import inspect
@@ -52,11 +51,3 @@ class PosMatchMeta(type):
         if not hasattr(cls, '__match_args__'):
             _set_match_args(cls)
         return cls
-
-
-class PosMatchMixin:
-    """Mix-in class to set `__match_args__` attribute to subclass."""
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not hasattr(self.__class__, '__match_args__'):
-            _set_match_args(self.__class__)

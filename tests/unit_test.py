@@ -1,4 +1,4 @@
-from posmatch import pos_match, PosMatchMeta, PosMatchMixin
+from posmatch import pos_match, PosMatchMeta
 
 
 class TestPosMatch:
@@ -157,82 +157,6 @@ class TestPosMatchMeta:
             __match_args__ = ('a', 'b', 'c')
 
         class SubClass(BaseClass, metaclass=PosMatchMeta):
-            def __init__(self, x, y):
-                super().__init__(x, y)
-
-        expected = ('a', 'b', 'c')
-        assert SubClass.__match_args__ == expected
-
-        instance = SubClass(1, 2)
-        assert instance.__match_args__ == expected
-
-
-class TestPosMatchDecorator:
-    """Test the `PosMatchMixin` mix-in class."""
-
-    def test_class_1(self):
-        class Class(PosMatchMixin):
-            def __init__(self, x, y):
-                super().__init__()
-
-        # in the case of mixin, class will only have the attribute after
-        # the first instantiation
-        assert not hasattr(Class, '__match_args__')
-
-        instance = Class(1, 2)
-        expected = ('x', 'y')
-        assert Class.__match_args__ == expected
-        assert instance.__match_args__ == expected
-
-    def test_class_2(self):
-        class Class(PosMatchMixin):
-            def __init__(self, a, /, b, *c, d, e=None, **f):
-                super().__init__()
-
-        # in the case of mixin, class will only have the attribute after
-        # the first instantiation
-        assert not hasattr(Class, '__match_args__')
-
-        instance = Class(1, 2, 3, d=4)
-        expected = ('a', 'b', 'c', 'd', 'e', 'f')
-        assert Class.__match_args__ == expected
-        assert instance.__match_args__ == expected
-
-    def test_init_with_args_and_kwargs(self):
-        class Class(PosMatchMixin):
-            def __init__(self, *args, **kwargs):
-                super().__init__()
-
-        # in the case of mixin, class will only have the attribute after
-        # the first instantiation
-        assert not hasattr(Class, '__match_args__')
-
-        instance = Class(1, 2, c=3)
-        expected = ('args', 'kwargs')
-        assert Class.__match_args__ == expected
-        assert instance.__match_args__ == expected
-
-    def test_existing_match_args_not_overwritten(self):
-        class Class(PosMatchMixin):
-            def __init__(self, a, b):
-                super().__init__()
-
-            __match_args__ = ('x', 'y')
-
-        expected = ('x', 'y')
-        assert Class.__match_args__ == expected
-
-        instance = Class(1, 2)
-        assert instance.__match_args__ == expected
-
-    def test_inherited_match_args_not_overridden(self):
-        class BaseClass:
-            def __init__(self, a, b):
-                super().__init__()
-
-            __match_args__ = ('a', 'b', 'c')
-
-        class SubClass(BaseClass, PosMatchMixin):
             def __init__(self, x, y):
                 super().__init__(x, y)
 
