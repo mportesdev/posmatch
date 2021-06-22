@@ -1,77 +1,50 @@
-from posmatch import pos_match
-
-
-def test_simple_class_pattern_matching_one_attribute():
+def test_class_1_first_attribute(decorated_class_1):
     """Test `pos_match` decorator."""
 
-    @pos_match
-    class Class:
-        def __init__(self, x, y):
-            self.x = x
-            self.y = y
-
-    instance = Class(1, 2)
+    instance = decorated_class_1(0, 1)
 
     # match instance using positional subpatterns
     match instance:
-        case Class(atr):
+        case decorated_class_1(atr):
             result = atr
 
-    assert result == 1
+    assert result == 0
 
 
-def test_simple_class_pattern_matching_two_attributes():
+def test_class_1_all_attributes(decorated_class_1):
     """Test `pos_match` decorator."""
 
-    @pos_match
-    class Class:
-        def __init__(self, x, y):
-            self.x = x
-            self.y = y
-
-    instance = Class(x='foo', y=42)
+    instance = decorated_class_1(42, 62)
 
     # match instance using positional subpatterns
     match instance:
-        case Class(atr_1, atr_2):
+        case decorated_class_1(atr_1, atr_2):
             result = atr_1, atr_2
 
-    assert result == ('foo', 42)
+    assert result == (42, 62)
 
 
-def test_pattern_matching_one_attribute():
+def test_class_2_first_attribute(decorated_class_2):
     """Test `pos_match` decorator."""
 
-    @pos_match
-    class Class:
-        def __init__(self, a, /, b, *c, d, e=None, **f):
-            self.a = a
-            self.b = b
-
-    instance = Class(1, 2, d=3)
+    instance = decorated_class_2(0, 1, d=2)
 
     # match instance using positional subpatterns
     match instance:
-        case Class(atr):
+        case decorated_class_2(atr):
             result = atr
 
-    assert result == 1
+    assert result == 0
 
 
-def test_pattern_matching_two_attributes():
+def test_class_2_all_attributes(decorated_class_2):
     """Test `pos_match` decorator."""
 
-    @pos_match
-    class Class:
-        def __init__(self, a, /, b, *c, d, e=None, **f):
-            self.a = a
-            self.b = b
-
-    instance = Class('bar', b=[], d=42)
+    instance = decorated_class_2(10, 11, 12, d=42, x=62)
 
     # match instance using positional subpatterns
     match instance:
-        case Class(atr_1, atr_2):
-            result = atr_1, atr_2
+        case decorated_class_2(atr_1, atr_2, atr_3, atr_4, atr_5, atr_6):
+            result = atr_1, atr_2, atr_3, atr_4, atr_5, atr_6
 
-    assert result == ('bar', [])
+    assert result == (10, 11, (12,), 42, None, {'x': 62})

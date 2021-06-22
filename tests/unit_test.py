@@ -1,31 +1,19 @@
 from posmatch import pos_match, PosMatchMeta, PosMatchMixin
 
 
-def test_simple_init():
+def test_class_1(decorated_class_1):
     """Test `pos_match` decorator."""
+    assert decorated_class_1.__match_args__ == ('a', 'b')
 
-    @pos_match
-    class Class:
-        def __init__(self, x, y):
-            ...
-
-    assert Class.__match_args__ == ('x', 'y')
-
-    instance = Class(1, 2)
-    assert instance.__match_args__ == ('x', 'y')
+    instance = decorated_class_1(1, 2)
+    assert instance.__match_args__ == ('a', 'b')
 
 
-def test_init_with_all_kinds_of_args():
+def test_class_2(decorated_class_2):
     """Test `pos_match` decorator."""
+    assert decorated_class_2.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
 
-    @pos_match
-    class Class:
-        def __init__(self, a, /, b, *c, d, e=None, **f):
-            ...
-
-    assert Class.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
-
-    instance = Class(1, 2, 3, d=4)
+    instance = decorated_class_2(1, 2, 3, d=4)
     assert instance.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
 
 
