@@ -126,31 +126,21 @@ def test_force_override_inherited_match_args():
     assert SubClass.__base__.__match_args__ == ('a', 'b', 'c')
 
 
-def test_meta_simple_init():
+def test_class_from_metaclass_1(class_from_metaclass_1):
     """Test `PosMatchMeta` metaclass."""
+    expected = ('a', 'b')
+    assert class_from_metaclass_1.__match_args__ == expected
 
-    class Class(metaclass=PosMatchMeta):
-        def __init__(self, x, y):
-            ...
-
-    expected = ('x', 'y')
-    assert Class.__match_args__ == expected
-
-    instance = Class(1, 2)
+    instance = class_from_metaclass_1(1, 2)
     assert instance.__match_args__ == expected
 
 
-def test_meta_init_with_all_kinds_of_args():
+def test_class_from_metaclass_2(class_from_metaclass_2):
     """Test `PosMatchMeta` metaclass."""
-
-    class Class(metaclass=PosMatchMeta):
-        def __init__(self, a, /, b, *c, d, e=None, **f):
-            ...
-
     expected = ('a', 'b', 'c', 'd', 'e', 'f')
-    assert Class.__match_args__ == expected
+    assert class_from_metaclass_2.__match_args__ == expected
 
-    instance = Class(1, 2, 3, d=4)
+    instance = class_from_metaclass_2(1, 2, 3, d=4)
     assert instance.__match_args__ == expected
 
 
