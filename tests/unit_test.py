@@ -3,18 +3,20 @@ from posmatch import pos_match, PosMatchMeta, PosMatchMixin
 
 def test_class_1(decorated_class_1):
     """Test `pos_match` decorator."""
-    assert decorated_class_1.__match_args__ == ('a', 'b')
+    expected = ('a', 'b')
+    assert decorated_class_1.__match_args__ == expected
 
     instance = decorated_class_1(1, 2)
-    assert instance.__match_args__ == ('a', 'b')
+    assert instance.__match_args__ == expected
 
 
 def test_class_2(decorated_class_2):
     """Test `pos_match` decorator."""
-    assert decorated_class_2.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
+    expected = ('a', 'b', 'c', 'd', 'e', 'f')
+    assert decorated_class_2.__match_args__ == expected
 
     instance = decorated_class_2(1, 2, 3, d=4)
-    assert instance.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
+    assert instance.__match_args__ == expected
 
 
 def test_init_with_args_and_kwargs():
@@ -25,10 +27,11 @@ def test_init_with_args_and_kwargs():
         def __init__(self, *args, **kwargs):
             ...
 
-    assert Class.__match_args__ == ('args', 'kwargs')
+    expected = ('args', 'kwargs')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2, c=3)
-    assert instance.__match_args__ == ('args', 'kwargs')
+    assert instance.__match_args__ == expected
 
 
 def test_call_to_decorator_with_no_args():
@@ -39,10 +42,11 @@ def test_call_to_decorator_with_no_args():
         def __init__(self, x, y):
             ...
 
-    assert Class.__match_args__ == ('x', 'y')
+    expected = ('x', 'y')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2)
-    assert instance.__match_args__ == ('x', 'y')
+    assert instance.__match_args__ == expected
 
 
 def test_existing_match_args_not_overwritten():
@@ -55,10 +59,11 @@ def test_existing_match_args_not_overwritten():
 
         __match_args__ = ('x', 'y')
 
-    assert Class.__match_args__ == ('x', 'y')
+    expected = ('x', 'y')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2)
-    assert instance.__match_args__ == ('x', 'y')
+    assert instance.__match_args__ == expected
 
 
 def test_force_overwrite_existing_match_args():
@@ -71,10 +76,11 @@ def test_force_overwrite_existing_match_args():
 
         __match_args__ = ('x', 'y')
 
-    assert Class.__match_args__ == ('a', 'b')
+    expected = ('a', 'b')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2)
-    assert instance.__match_args__ == ('a', 'b')
+    assert instance.__match_args__ == expected
 
 
 def test_inherited_match_args_not_overridden():
@@ -91,10 +97,11 @@ def test_inherited_match_args_not_overridden():
         def __init__(self, x, y):
             super().__init__(x, y)
 
-    assert SubClass.__match_args__ == ('a', 'b', 'c')
+    expected = ('a', 'b', 'c')
+    assert SubClass.__match_args__ == expected
 
     instance = SubClass(1, 2)
-    assert instance.__match_args__ == ('a', 'b', 'c')
+    assert instance.__match_args__ == expected
 
 
 def test_force_override_inherited_match_args():
@@ -111,10 +118,11 @@ def test_force_override_inherited_match_args():
         def __init__(self, x, y):
             super().__init__(x, y)
 
-    assert SubClass.__match_args__ == ('x', 'y')
+    expected = ('x', 'y')
+    assert SubClass.__match_args__ == expected
 
     instance = SubClass(1, 2)
-    assert instance.__match_args__ == ('x', 'y')
+    assert instance.__match_args__ == expected
     assert SubClass.__base__.__match_args__ == ('a', 'b', 'c')
 
 
@@ -125,10 +133,11 @@ def test_meta_simple_init():
         def __init__(self, x, y):
             ...
 
-    assert Class.__match_args__ == ('x', 'y')
+    expected = ('x', 'y')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2)
-    assert instance.__match_args__ == ('x', 'y')
+    assert instance.__match_args__ == expected
 
 
 def test_meta_init_with_all_kinds_of_args():
@@ -138,10 +147,11 @@ def test_meta_init_with_all_kinds_of_args():
         def __init__(self, a, /, b, *c, d, e=None, **f):
             ...
 
-    assert Class.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
+    expected = ('a', 'b', 'c', 'd', 'e', 'f')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2, 3, d=4)
-    assert instance.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
+    assert instance.__match_args__ == expected
 
 
 def test_meta_init_with_args_and_kwargs():
@@ -151,10 +161,11 @@ def test_meta_init_with_args_and_kwargs():
         def __init__(self, *args, **kwargs):
             ...
 
-    assert Class.__match_args__ == ('args', 'kwargs')
+    expected = ('args', 'kwargs')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2, c=3)
-    assert instance.__match_args__ == ('args', 'kwargs')
+    assert instance.__match_args__ == expected
 
 
 def test_meta_existing_match_args_not_overwritten():
@@ -166,10 +177,11 @@ def test_meta_existing_match_args_not_overwritten():
 
         __match_args__ = ('x', 'y')
 
-    assert Class.__match_args__ == ('x', 'y')
+    expected = ('x', 'y')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2)
-    assert instance.__match_args__ == ('x', 'y')
+    assert instance.__match_args__ == expected
 
 
 def test_meta_inherited_match_args_not_overridden():
@@ -185,10 +197,11 @@ def test_meta_inherited_match_args_not_overridden():
         def __init__(self, x, y):
             super().__init__(x, y)
 
-    assert SubClass.__match_args__ == ('a', 'b', 'c')
+    expected = ('a', 'b', 'c')
+    assert SubClass.__match_args__ == expected
 
     instance = SubClass(1, 2)
-    assert instance.__match_args__ == ('a', 'b', 'c')
+    assert instance.__match_args__ == expected
 
 
 def test_mixin_simple_init():
@@ -203,8 +216,9 @@ def test_mixin_simple_init():
     assert not hasattr(Class, '__match_args__')
 
     instance = Class(1, 2)
-    assert Class.__match_args__ == ('x', 'y')
-    assert instance.__match_args__ == ('x', 'y')
+    expected = ('x', 'y')
+    assert Class.__match_args__ == expected
+    assert instance.__match_args__ == expected
 
 
 def test_mixin_init_with_all_kinds_of_args():
@@ -219,8 +233,9 @@ def test_mixin_init_with_all_kinds_of_args():
     assert not hasattr(Class, '__match_args__')
 
     instance = Class(1, 2, 3, d=4)
-    assert Class.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
-    assert instance.__match_args__ == ('a', 'b', 'c', 'd', 'e', 'f')
+    expected = ('a', 'b', 'c', 'd', 'e', 'f')
+    assert Class.__match_args__ == expected
+    assert instance.__match_args__ == expected
 
 
 def test_mixin_init_with_args_and_kwargs():
@@ -235,8 +250,9 @@ def test_mixin_init_with_args_and_kwargs():
     assert not hasattr(Class, '__match_args__')
 
     instance = Class(1, 2, c=3)
-    assert Class.__match_args__ == ('args', 'kwargs')
-    assert instance.__match_args__ == ('args', 'kwargs')
+    expected = ('args', 'kwargs')
+    assert Class.__match_args__ == expected
+    assert instance.__match_args__ == expected
 
 
 def test_mixin_existing_match_args_not_overwritten():
@@ -248,10 +264,11 @@ def test_mixin_existing_match_args_not_overwritten():
 
         __match_args__ = ('x', 'y')
 
-    assert Class.__match_args__ == ('x', 'y')
+    expected = ('x', 'y')
+    assert Class.__match_args__ == expected
 
     instance = Class(1, 2)
-    assert instance.__match_args__ == ('x', 'y')
+    assert instance.__match_args__ == expected
 
 
 def test_mixin_inherited_match_args_not_overridden():
@@ -267,7 +284,8 @@ def test_mixin_inherited_match_args_not_overridden():
         def __init__(self, x, y):
             super().__init__(x, y)
 
-    assert SubClass.__match_args__ == ('a', 'b', 'c')
+    expected = ('a', 'b', 'c')
+    assert SubClass.__match_args__ == expected
 
     instance = SubClass(1, 2)
-    assert instance.__match_args__ == ('a', 'b', 'c')
+    assert instance.__match_args__ == expected
