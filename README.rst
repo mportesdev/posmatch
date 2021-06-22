@@ -1,12 +1,12 @@
 Positional subpattern matching for custom classes.
 
 **Note:** This is mostly a toy project. Using it will save you one line
-of boiler-plate code at the cost of an additional decorator or argument.
-In many cases, the problem this package solves can be more easily solved
+of boiler-plate code at the cost of an additional decorator or
+argument. In many cases, the same effect can be easily achieved by
 using a dataclass.
 
 Requirements
-------------
+============
 
 Python 3.8 or higher.
 
@@ -15,17 +15,17 @@ its usage only makes sense with the new pattern matching feature
 introduced in Python 3.10.
 
 Installation
-------------
+============
 
 .. code::
 
     pip install posmatch
 
 Usage
------
+=====
 
 The ``pos_match`` decorator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 .. code-block:: python
 
@@ -43,19 +43,21 @@ The ``pos_match`` decorator
     color = Color(64, 64, 64)
 
     match color:
+        case Color(0, 0, b):
+            print('shade of blue')
         case Color(r, g, b) if r == g == b:
             print('shade of grey')
         case _:
             print('other color')
 
-Result:
+Output:
 
 .. code::
 
     shade of grey
 
 The ``PosMatchMeta`` metaclass
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 .. code-block:: python
 
@@ -75,10 +77,12 @@ The ``PosMatchMeta`` metaclass
     match color:
         case Color(0, 0, b):
             print('shade of blue')
+        case Color(r, g, b) if r == g == b:
+            print('shade of grey')
         case _:
             print('other color')
 
-Result:
+Output:
 
 .. code::
 
