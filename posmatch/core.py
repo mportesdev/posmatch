@@ -1,17 +1,19 @@
 """
-Enable positional subpattern matching for objects of custom classes.
+Enable positional subpattern matching for objects of a custom class by
+setting the `__match_args__` class attribute.
 
 This module provides the following functions and classes:
 
-  pos_match      -  class decorator setting the `__match_args__` attribute
-  PosMatchMeta   -  metaclass setting the `__match_args__` attribute
+  pos_match       -    class decorator setting the `__match_args__`
+                       attribute
+  PosMatchMeta    -    metaclass setting the `__match_args__` attribute
 """
 
 import inspect
 
 
 def pos_match(cls=None, /, *, force=False):
-    """Decorator to set `__match_args__` attribute to class.
+    """Decorator setting the `__match_args__` class attribute.
 
     `__match_args__` will contain a sequence of names equal to
     parameter names in the signature of `cls.__init__` (not including
@@ -22,16 +24,16 @@ def pos_match(cls=None, /, *, force=False):
     True.
     """
     if cls:
-        # decorator used in the form @pos_match
+        # @pos_match usage
         if not hasattr(cls, '__match_args__'):
             _set_match_args(cls)
         return cls
 
     if force:
-        # decorator used in the form @pos_match(force=True)
+        # @pos_match(force=True) usage
         return _set_match_args
 
-    # @pos_match(), @pos_match(force=False) or equivalent usage
+    # @pos_match() or @pos_match(force=False) usage
     return pos_match
 
 
@@ -39,13 +41,14 @@ def _set_match_args(cls):
     init_params = inspect.signature(cls.__init__).parameters
     param_names = tuple(init_params.keys())
 
-    # do not include the first parameter (self)
+    # exclude the first parameter (self)
     setattr(cls, '__match_args__', param_names[1:])
     return cls
 
 
 class PosMatchMeta(type):
-    """Metaclass to set `__match_args__` attribute to class."""
+    """Metaclass setting the `__match_args__` class attribute."""
+
     def __new__(mcs, name, bases, dct):
         cls = super().__new__(mcs, name, bases, dct)
         if not hasattr(cls, '__match_args__'):
