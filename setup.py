@@ -12,7 +12,7 @@ setup(
     version=posmatch.__version__,
     author='Michal Porteš',
     author_email='michalportes1@gmail.com',
-    description='Positional subpattern matching for custom classes.',
+    description='Positional sub-pattern matching for custom classes.',
     long_description=long_description,
     long_description_content_type='text/x-rst',
     url='https://github.com/mportesdev/posmatch',

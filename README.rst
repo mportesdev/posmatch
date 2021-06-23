@@ -1,18 +1,18 @@
-Positional subpattern matching for custom classes.
+========
+posmatch
+========
 
-**Note:** This is mostly a toy project. Using it will save you one line
-of boiler-plate code at the cost of an additional decorator or
-argument. In many cases, the same effect can be easily achieved by
-using a dataclass.
+Positional sub-pattern matching for custom classes.
 
 Requirements
 ============
 
 Python 3.8 or higher.
 
-**Note:** Although this package itself does not require Python 3.10,
-its usage only makes sense with the new pattern matching feature
-introduced in Python 3.10.
+**Note:** Although this package can be installed and used in
+Python 3.8+, its usage only makes sense with the pattern matching
+feature introduced in Python 3.10. All code snippets below require
+Python 3.10+.
 
 Installation
 ============
@@ -39,22 +39,21 @@ The ``pos_match`` decorator
             self.g = g
             self.b = b
 
-
     color = Color(64, 64, 64)
 
     match color:
         case Color(0, 0, b):
-            print('shade of blue')
+            print('Shade of blue')
         case Color(r, g, b) if r == g == b:
-            print('shade of grey')
+            print('Shade of grey')
         case _:
-            print('other color')
+            print('Other color')
 
 Output:
 
 .. code::
 
-    shade of grey
+    Shade of grey
 
 The ``PosMatchMeta`` metaclass
 ------------------------------
@@ -63,27 +62,25 @@ The ``PosMatchMeta`` metaclass
 
     from posmatch import PosMatchMeta
 
+    class Date(metaclass=PosMatchMeta):
 
-    class Color(metaclass=PosMatchMeta):
+        def __init__(self, year, month, day):
+            self.year = year
+            self.month = month
+            self.day = day
 
-        def __init__(self, r, g, b):
-            self.r = r
-            self.g = g
-            self.b = b
+    date = Date(2968, 5, 5)
 
-
-    color = Color(0, 0, 64)
-
-    match color:
-        case Color(0, 0, b):
-            print('shade of blue')
-        case Color(r, g, b) if r == g == b:
-            print('shade of grey')
+    match date:
+        case Date(_, month, day) if month == 5 and day == 1:
+            print('May Day')
+        case Date(year) if year > 2100:
+            print('Distant future')
         case _:
-            print('other color')
+            print('Other')
 
 Output:
 
 .. code::
 
-    shade of blue
+    Distant future

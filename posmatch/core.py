@@ -1,5 +1,5 @@
 """
-Enable positional subpattern matching for objects of a custom class by
+Enable positional sub-pattern matching for objects of a custom class by
 setting the `__match_args__` class attribute.
 
 This module provides the following functions and classes:
@@ -30,10 +30,10 @@ def pos_match(cls=None, /, *, force=False):
         return cls
 
     if force:
-        # @pos_match(force=True) usage
+        # @pos_match(force=True) or equivalent usage
         return _set_match_args
 
-    # @pos_match() or @pos_match(force=False) usage
+    # @pos_match(), @pos_match(force=False) or equivalent usage
     return pos_match
 
 
