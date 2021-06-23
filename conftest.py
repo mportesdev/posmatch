@@ -9,6 +9,17 @@ if sys.version_info < (3, 10):
 
 
 @pytest.fixture
+def class_1():
+
+    class Class:
+        def __init__(self, a, b):
+            self.a = a
+            self.b = b
+
+    return Class
+
+
+@pytest.fixture
 def decorated_class_1():
 
     @pos_match
