@@ -39,10 +39,10 @@ def pos_match(cls=None, /, *, force=False):
 
 def _set_match_args(cls):
     init_params = inspect.signature(cls.__init__).parameters
-    param_names = tuple(init_params.keys())
+    param_names = tuple(init_params)
 
     # exclude the first parameter (self)
-    setattr(cls, '__match_args__', param_names[1:])
+    cls.__match_args__ = param_names[1:]
     return cls
 
 
