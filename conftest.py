@@ -8,34 +8,38 @@ if sys.version_info < (3, 10):
     collect_ignore = ['tests/test_matching.py']
 
 
-@pytest.fixture
-def class_1():
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass'])
+def simple_class(request):
 
-    class Class:
+    @pos_match
+    class ClassWithDecorator:
         def __init__(self, a, b):
             self.a = a
             self.b = b
 
-    return Class
-
-
-@pytest.fixture
-def decorated_class_1():
-
-    @pos_match
-    class Class:
+    @pos_match()
+    class ClassWithDecoratorCall:
         def __init__(self, a, b):
             self.a = a
             self.b = b
 
-    return Class
+    class ClassWithMetaClass(metaclass=PosMatchMeta):
+        def __init__(self, a, b):
+            self.a = a
+            self.b = b
+
+    return {
+        'decorator': ClassWithDecorator,
+        'decorator call': ClassWithDecoratorCall,
+        'metaclass': ClassWithMetaClass,
+    }[request.param]
 
 
-@pytest.fixture
-def decorated_class_2():
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass'])
+def six_pack_class(request):
 
     @pos_match
-    class Class:
+    class ClassWithDecorator:
         def __init__(self, a, /, b, *c, d, e=None, **f):
             self.a = a
             self.b = b
@@ -44,24 +48,8 @@ def decorated_class_2():
             self.e = e
             self.f = f
 
-    return Class
-
-
-@pytest.fixture
-def class_from_metaclass_1():
-
-    class Class(metaclass=PosMatchMeta):
-        def __init__(self, a, b):
-            self.a = a
-            self.b = b
-
-    return Class
-
-
-@pytest.fixture
-def class_from_metaclass_2():
-
-    class Class(metaclass=PosMatchMeta):
+    @pos_match()
+    class ClassWithDecoratorCall:
         def __init__(self, a, /, b, *c, d, e=None, **f):
             self.a = a
             self.b = b
@@ -70,4 +58,77 @@ def class_from_metaclass_2():
             self.e = e
             self.f = f
 
-    return Class
+    class ClassWithMetaClass(metaclass=PosMatchMeta):
+        def __init__(self, a, /, b, *c, d, e=None, **f):
+            self.a = a
+            self.b = b
+            self.c = c
+            self.d = d
+            self.e = e
+            self.f = f
+
+    return {
+        'decorator': ClassWithDecorator,
+        'decorator call': ClassWithDecoratorCall,
+        'metaclass': ClassWithMetaClass,
+    }[request.param]
+
+
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass'])
+def class_with_attr(request):
+
+    @pos_match
+    class ClassWithDecorator:
+        def __init__(self, a, b):
+            ...
+
+        __match_args__ = ('x', 'y')
+
+    @pos_match()
+    class ClassWithDecoratorCall:
+        def __init__(self, a, b):
+            ...
+
+        __match_args__ = ('x', 'y')
+
+    class ClassWithMetaClass(metaclass=PosMatchMeta):
+        def __init__(self, a, b):
+            ...
+
+        __match_args__ = ('x', 'y')
+
+    return {
+        'decorator': ClassWithDecorator,
+        'decorator call': ClassWithDecoratorCall,
+        'metaclass': ClassWithMetaClass,
+    }[request.param]
+
+
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass'])
+def class_with_inherited(request):
+
+    class BaseClass:
+        def __init__(self, a, b):
+            ...
+
+        __match_args__ = ('a', 'b', 'c')
+
+    @pos_match
+    class ClassWithDecorator(BaseClass):
+        def __init__(self, x, y):
+            super().__init__(x, y)
+
+    @pos_match()
+    class ClassWithDecoratorCall(BaseClass):
+        def __init__(self, x, y):
+            super().__init__(x, y)
+
+    class ClassWithMetaClass(BaseClass, metaclass=PosMatchMeta):
+        def __init__(self, x, y):
+            super().__init__(x, y)
+
+    return {
+        'decorator': ClassWithDecorator,
+        'decorator call': ClassWithDecoratorCall,
+        'metaclass': ClassWithMetaClass,
+    }[request.param]

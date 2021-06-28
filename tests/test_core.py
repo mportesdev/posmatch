@@ -1,60 +1,37 @@
-from posmatch import pos_match, PosMatchMeta
+from posmatch import pos_match
 
 
-class TestPosMatch:
-    """Test the `pos_match` decorator."""
+class TestMatchArgsAttribute:
 
-    def test_class_1(self, decorated_class_1):
+    def test_simple_class(self, simple_class):
         expected = ('a', 'b')
-        assert decorated_class_1.__match_args__ == expected
+        assert simple_class.__match_args__ == expected
 
-        instance = decorated_class_1(1, 2)
+        instance = simple_class(1, 2)
         assert instance.__match_args__ == expected
 
-    def test_class_2(self, decorated_class_2):
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__
+
+    def test_six_pack_class(self, six_pack_class):
         expected = ('a', 'b', 'c', 'd', 'e', 'f')
-        assert decorated_class_2.__match_args__ == expected
+        assert six_pack_class.__match_args__ == expected
 
-        instance = decorated_class_2(1, 2, 3, d=4)
+        instance = six_pack_class(1, 2, 3, d=4)
         assert instance.__match_args__ == expected
 
-    def test_init_with_args_and_kwargs(self):
-        @pos_match
-        class Class:
-            def __init__(self, *args, **kwargs):
-                ...
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__
 
-        expected = ('args', 'kwargs')
-        assert Class.__match_args__ == expected
-
-        instance = Class(1, 2, c=3)
-        assert instance.__match_args__ == expected
-
-    def test_call_to_decorator_with_no_args(self):
-        @pos_match()
-        class Class:
-            def __init__(self, x, y):
-                ...
-
+    def test_existing_match_args_not_overwritten(self, class_with_attr):
         expected = ('x', 'y')
-        assert Class.__match_args__ == expected
+        assert class_with_attr.__match_args__ == expected
 
-        instance = Class(1, 2)
+        instance = class_with_attr(1, 2)
         assert instance.__match_args__ == expected
 
-    def test_existing_match_args_not_overwritten(self):
-        @pos_match
-        class Class:
-            def __init__(self, a, b):
-                ...
-
-            __match_args__ = ('x', 'y')
-
-        expected = ('x', 'y')
-        assert Class.__match_args__ == expected
-
-        instance = Class(1, 2)
-        assert instance.__match_args__ == expected
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__
 
     def test_force_overwrite_existing_match_args(self):
         @pos_match(force=True)
@@ -70,23 +47,18 @@ class TestPosMatch:
         instance = Class(1, 2)
         assert instance.__match_args__ == expected
 
-    def test_inherited_match_args_not_overridden(self):
-        class BaseClass:
-            def __init__(self, a, b):
-                ...
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__
 
-            __match_args__ = ('a', 'b', 'c')
-
-        @pos_match
-        class SubClass(BaseClass):
-            def __init__(self, x, y):
-                super().__init__(x, y)
-
+    def test_inherited_match_args_not_overridden(self, class_with_inherited):
         expected = ('a', 'b', 'c')
-        assert SubClass.__match_args__ == expected
+        assert class_with_inherited.__match_args__ == expected
 
-        instance = SubClass(1, 2)
+        instance = class_with_inherited(1, 2)
         assert instance.__match_args__ == expected
+
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__
 
     def test_force_override_inherited_match_args(self):
         class BaseClass:
@@ -107,61 +79,5 @@ class TestPosMatch:
         assert instance.__match_args__ == expected
         assert SubClass.__base__.__match_args__ == ('a', 'b', 'c')
 
-
-class TestPosMatchMeta:
-    """Test the `PosMatchMeta` metaclass."""
-
-    def test_class_1(self, class_from_metaclass_1):
-        expected = ('a', 'b')
-        assert class_from_metaclass_1.__match_args__ == expected
-
-        instance = class_from_metaclass_1(1, 2)
-        assert instance.__match_args__ == expected
-
-    def test_class_2(self, class_from_metaclass_2):
-        expected = ('a', 'b', 'c', 'd', 'e', 'f')
-        assert class_from_metaclass_2.__match_args__ == expected
-
-        instance = class_from_metaclass_2(1, 2, 3, d=4)
-        assert instance.__match_args__ == expected
-
-    def test_init_with_args_and_kwargs(self):
-        class Class(metaclass=PosMatchMeta):
-            def __init__(self, *args, **kwargs):
-                ...
-
-        expected = ('args', 'kwargs')
-        assert Class.__match_args__ == expected
-
-        instance = Class(1, 2, c=3)
-        assert instance.__match_args__ == expected
-
-    def test_existing_match_args_not_overwritten(self):
-        class Class(metaclass=PosMatchMeta):
-            def __init__(self, a, b):
-                ...
-
-            __match_args__ = ('x', 'y')
-
-        expected = ('x', 'y')
-        assert Class.__match_args__ == expected
-
-        instance = Class(1, 2)
-        assert instance.__match_args__ == expected
-
-    def test_inherited_match_args_not_overridden(self):
-        class BaseClass:
-            def __init__(self, a, b):
-                ...
-
-            __match_args__ = ('a', 'b', 'c')
-
-        class SubClass(BaseClass, metaclass=PosMatchMeta):
-            def __init__(self, x, y):
-                super().__init__(x, y)
-
-        expected = ('a', 'b', 'c')
-        assert SubClass.__match_args__ == expected
-
-        instance = SubClass(1, 2)
-        assert instance.__match_args__ == expected
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__
