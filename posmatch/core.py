@@ -43,6 +43,8 @@ def _set_match_args(cls):
 
     # exclude the first parameter (self)
     cls.__match_args__ = param_names[1:]
+
+    # also return the class so this function can be used as a decorator
     return cls
 
 

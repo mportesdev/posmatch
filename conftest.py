@@ -37,7 +37,10 @@ def simple_class(request):
 
 @pytest.fixture(params=['decorator', 'decorator call', 'metaclass'])
 def six_pack_class(request):
-
+    """Return a class with six kinds of args in signature.
+    (positional-only, positional, packed positional, keyword-only,
+    keyword, packed keyword)
+    """
     @pos_match
     class ClassWithDecorator:
         def __init__(self, a, /, b, *c, d, e=None, **f):
@@ -76,6 +79,7 @@ def six_pack_class(request):
 
 @pytest.fixture(params=['decorator', 'decorator call', 'metaclass'])
 def class_with_attr(request):
+    """Return a class with the `__match_args__` attribute set."""
 
     @pos_match
     class ClassWithDecorator:
@@ -106,6 +110,7 @@ def class_with_attr(request):
 
 @pytest.fixture(params=['decorator', 'decorator call', 'metaclass'])
 def class_with_inherited(request):
+    """Return a class with the `__match_args__` attribute inherited."""
 
     class BaseClass:
         def __init__(self, a, b):
