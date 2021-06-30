@@ -1,3 +1,5 @@
+|release| |pypi|
+
 ========
 posmatch
 ========
@@ -42,12 +44,10 @@ The ``pos_match`` decorator
     color = Color(64, 64, 64)
 
     match color:
-        case Color(0, 0, b):
+        case Color(0, 0, _):
             print('Shade of blue')
-        case Color(r, g, b) if r == g == b:
+        case Color(red, green, blue) if red == green == blue:
             print('Shade of grey')
-        case _:
-            print('Other color')
 
 Output:
 
@@ -69,18 +69,22 @@ The ``PosMatchMeta`` metaclass
             self.month = month
             self.day = day
 
-    date = Date(2968, 5, 5)
+    date = Date(2121, 1, 1)
 
     match date:
-        case Date(_, month, day) if month == 5 and day == 1:
+        case Date(_, m, d) if m == 5 and d == 1:
             print('May Day')
-        case Date(year) if year > 2100:
+        case Date(y) if y > 2100:
             print('Distant future')
-        case _:
-            print('Other')
 
 Output:
 
 .. code::
 
     Distant future
+
+
+.. |release| image:: https://img.shields.io/github/v/release/mportesdev/posmatch
+    :target: https://github.com/mportesdev/posmatch/releases/latest
+.. |pypi| image:: https://img.shields.io/pypi/v/posmatch
+    :target: https://pypi.org/project/posmatch
