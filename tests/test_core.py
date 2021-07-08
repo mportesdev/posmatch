@@ -49,3 +49,13 @@ class TestMatchArgsAttribute:
 
         # attribute must not be defined on instance itself
         assert '__match_args__' not in instance.__dict__
+
+    def test_data_class(self, data_class):
+        expected = ('a', 'b', 'c')
+        assert data_class.__match_args__ == expected
+
+        instance = data_class(1, False, 'X')
+        assert instance.__match_args__ == expected
+
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__

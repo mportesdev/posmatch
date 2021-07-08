@@ -55,6 +55,17 @@ class TestPatternMatching:
 
         assert result == (1, 2)
 
+    def test_data_class(self, data_class):
+        instance = data_class(1, False, 'X')
+
+        match instance:
+            case data_class(atr_1, atr_2, atr_3):
+                result = atr_1, atr_2, atr_3
+            case _:
+                result = None
+
+        assert result == (1, False, 'X')
+
 
 class TestPatternMatchingWithLessSubPatterns:
 
@@ -79,3 +90,14 @@ class TestPatternMatchingWithLessSubPatterns:
                 result = None
 
         assert result == (0, 1)
+
+    def test_data_class(self, data_class):
+        instance = data_class(1, False, 'X')
+
+        match instance:
+            case data_class(atr_1, atr_2):
+                result = atr_1, atr_2
+            case _:
+                result = None
+
+        assert result == (1, False)

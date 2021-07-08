@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import sys
 
 import pytest
@@ -6,6 +7,10 @@ from posmatch import pos_match, PosMatchMeta
 
 if sys.version_info < (3, 10):
     collect_ignore = ['tests/test_matching.py']
+
+BY_DECORATOR = pytest.fixture(
+    params=['decorator', 'decorator call']
+)
 
 BY_DECORATOR_OR_METACLASS = pytest.fixture(
     params=['decorator', 'decorator call', 'metaclass']
@@ -190,4 +195,27 @@ def forced_class(request):
     return {
         'own': WithOwnMatchArgs,
         'inherited': WithInheritedMatchArgs,
+    }[request.param]
+
+
+@BY_DECORATOR
+def data_class(request):
+
+    @pos_match
+    @dataclass
+    class WithDecorator:
+        a: int
+        b: bool
+        c: str
+
+    @pos_match()
+    @dataclass
+    class WithDecoratorCall:
+        a: int
+        b: bool
+        c: str
+
+    return {
+        'decorator': WithDecorator,
+        'decorator call': WithDecoratorCall,
     }[request.param]
