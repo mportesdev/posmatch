@@ -56,3 +56,8 @@ class PosMatchMeta(type):
         if not hasattr(cls, '__match_args__'):
             _set_match_args(cls)
         return cls
+
+
+class PosMatchMixin:
+    """Mix-in class setting the `__match_args__` class attribute."""
+    ...

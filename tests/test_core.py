@@ -59,3 +59,23 @@ class TestMatchArgsAttribute:
 
         # attribute must not be defined on instance itself
         assert '__match_args__' not in instance.__dict__
+
+    def test_mixin_first(self, mixin_first):
+        expected = ('x', 'y')
+        assert mixin_first.__match_args__ == expected
+
+        instance = mixin_first(1, 2)
+        assert instance.__match_args__ == expected
+
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__
+
+    def test_mixin_last(self, mixin_last):
+        expected = ('a', 'b')
+        assert mixin_last.__match_args__ == expected
+
+        instance = mixin_last(1, 2)
+        assert instance.__match_args__ == expected
+
+        # attribute must not be defined on instance itself
+        assert '__match_args__' not in instance.__dict__

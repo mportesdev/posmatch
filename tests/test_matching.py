@@ -66,6 +66,28 @@ class TestPatternMatching:
 
         assert result == (1, False, 'X')
 
+    def test_mixin_first(self, mixin_first):
+        instance = mixin_first(1, 2)
+
+        match instance:
+            case mixin_first(atr_1, atr_2):
+                result = atr_1, atr_2
+            case _:
+                result = None
+
+        assert result == (43, 44)
+
+    def test_mixin_last(self, mixin_last):
+        instance = mixin_last(1, 2)
+
+        match instance:
+            case mixin_last(atr_1, atr_2):
+                result = atr_1, atr_2
+            case _:
+                result = None
+
+        assert result == (1, 2)
+
 
 class TestPatternMatchingWithLessSubPatterns:
 
