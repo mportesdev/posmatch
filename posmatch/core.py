@@ -60,4 +60,10 @@ class PosMatchMeta(type):
 
 class PosMatchMixin:
     """Mix-in class setting the `__match_args__` class attribute."""
-    ...
+
+    @classmethod
+    @property
+    def __match_args__(cls):
+        init_params = inspect.signature(cls.__init__).parameters
+        param_names = tuple(init_params)
+        return param_names[1:]
