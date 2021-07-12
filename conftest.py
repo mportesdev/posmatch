@@ -3,8 +3,7 @@ import sys
 
 import pytest
 
-from posmatch import pos_match, PosMatchMeta
-from posmatch.core import PosMatchMixin
+from posmatch import pos_match, PosMatchMeta, PosMatchMixin
 
 if sys.version_info < (3, 10):
     collect_ignore = ['tests/test_matching.py']
