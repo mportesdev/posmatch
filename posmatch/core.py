@@ -51,8 +51,8 @@ def _set_match_args(cls):
 class PosMatchMeta(type):
     """Metaclass setting the `__match_args__` class attribute."""
 
-    def __new__(mcs, name, bases, dct):
-        cls = super().__new__(mcs, name, bases, dct)
+    def __new__(mcs, *args):
+        cls = super().__new__(mcs, *args)
         if not hasattr(cls, '__match_args__'):
             _set_match_args(cls)
         return cls
