@@ -9,10 +9,10 @@ Positional sub-pattern matching for custom classes.
 Requirements
 ============
 
-Python 3.8 or higher.
+Python 3.9 or higher.
 
 **Note:** Although this package can be installed and used in
-Python 3.8+, its usage only makes sense with the pattern matching
+Python 3.9+, its usage only makes sense with the pattern matching
 feature introduced in Python 3.10. All code snippets below require
 Python 3.10+.
 
