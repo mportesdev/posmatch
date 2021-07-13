@@ -123,3 +123,25 @@ class TestPatternMatchingWithLessSubPatterns:
                 result = None
 
         assert result == (1, False)
+
+    def test_mixin_first(self, mixin_first):
+        instance = mixin_first(1, 2)
+
+        match instance:
+            case mixin_first(atr):
+                result = atr
+            case _:
+                result = None
+
+        assert result == 43
+
+    def test_mixin_last(self, mixin_last):
+        instance = mixin_last(1, 2)
+
+        match instance:
+            case mixin_last(atr):
+                result = atr
+            case _:
+                result = None
+
+        assert result == 1
