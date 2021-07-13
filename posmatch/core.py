@@ -7,6 +7,8 @@ This module provides the following functions and classes:
   pos_match       -    class decorator setting the `__match_args__`
                        attribute
   PosMatchMeta    -    metaclass setting the `__match_args__` attribute
+  PosMatchMixin   -    mix-in class setting the `__match_args__`
+                       attribute
 """
 
 import inspect

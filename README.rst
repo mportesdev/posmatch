@@ -83,6 +83,33 @@ Output:
 
     Distant future
 
+The ``PosMatchMixin`` mix-in class
+----------------------------------
+
+.. code-block:: python
+
+    from posmatch import PosMatchMixin
+
+    class Rectangle(PosMatchMixin):
+
+        def __init__(self, width, height):
+            self.width = width
+            self.height = height
+
+    shape = Rectangle(16, 16)
+
+    match shape:
+        case Rectangle(w, h) if w == h:
+            print('Square')
+        case Rectangle(x, y) if x > y:
+            print('Landscape')
+
+Output:
+
+.. code::
+
+    Square
+
 
 .. |release| image:: https://img.shields.io/github/v/release/mportesdev/posmatch
     :target: https://github.com/mportesdev/posmatch/releases/latest
