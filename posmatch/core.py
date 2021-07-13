@@ -40,14 +40,17 @@ def pos_match(cls=None, /, *, force=False):
 
 
 def _set_match_args(cls):
-    init_params = inspect.signature(cls.__init__).parameters
-    param_names = tuple(init_params)
-
-    # exclude the first parameter (self)
-    cls.__match_args__ = param_names[1:]
+    cls.__match_args__ = _param_names_from_init(cls)
 
     # also return the class so this function can be used as a decorator
     return cls
+
+
+def _param_names_from_init(cls):
+    init_params = inspect.signature(cls.__init__).parameters
+
+    # exclude the first parameter (self)
+    return tuple(init_params)[1:]
 
 
 class PosMatchMeta(type):
@@ -66,6 +69,4 @@ class PosMatchMixin:
     @classmethod
     @property
     def __match_args__(cls):
-        init_params = inspect.signature(cls.__init__).parameters
-        param_names = tuple(init_params)
-        return param_names[1:]
+        return _param_names_from_init(cls)
