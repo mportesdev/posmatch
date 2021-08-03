@@ -11,6 +11,7 @@ This module provides the following functions and classes:
                        attribute
 """
 
+from functools import cache
 import inspect
 
 
@@ -68,5 +69,6 @@ class PosMatchMixin:
 
     @classmethod
     @property
+    @cache
     def __match_args__(cls):
         return _param_names_from_init(cls)
