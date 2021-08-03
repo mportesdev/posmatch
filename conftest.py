@@ -197,7 +197,7 @@ def class_with_inherited(request):
     }[request.param]
 
 
-@pytest.fixture(params=['own', 'inherited'])
+@pytest.fixture(params=['own', 'inherited', 'none'])
 def forced_class(request):
     """Return a class decorated with `@pos_match(force=True)`."""
 
@@ -225,9 +225,18 @@ def forced_class(request):
             self.a = self.x + 42
             self.b = self.y + 42
 
+    @pos_match(force=True)
+    class WithNoMatchArgs:
+        def __init__(self, a, b):
+            self.a = a
+            self.b = b
+            self.x = a + 42
+            self.y = b + 42
+
     return {
         'own': WithOwnMatchArgs,
         'inherited': WithInheritedMatchArgs,
+        'none': WithNoMatchArgs,
     }[request.param]
 
 
