@@ -88,6 +88,23 @@ class TestPatternMatching:
 
         assert result == (1, 2)
 
+    def test_repeated_access_to_class_property_of_mixin(self, mixin_first):
+        instance = mixin_first(1, 2)
+
+        match instance:
+            case mixin_first(atr_1, atr_2):
+                result_1 = atr_1, atr_2
+            case _:
+                result_1 = None
+
+        match instance:
+            case mixin_first(i, j):
+                result_2 = i, j
+            case _:
+                result_2 = None
+
+        assert result_1 == result_2 == (43, 44)
+
 
 class TestPatternMatchingWithLessSubPatterns:
 
