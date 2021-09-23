@@ -51,6 +51,9 @@ class TestMatchArgsAttribute:
         assert '__match_args__' not in instance.__dict__
 
     def test_data_class(self, data_class):
+        """Test that a decorated dataclass works both in Python <3.10
+        and >=3.10.
+        """
         expected = ('a', 'b', 'c')
         assert data_class.__match_args__ == expected
 

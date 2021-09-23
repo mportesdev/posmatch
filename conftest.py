@@ -265,6 +265,8 @@ def data_class(request):
 
 @pytest.fixture
 def mixin_first():
+    """Return a class with the mix-in at the beginning of its MRO."""
+
     class BaseClass:
         def __init__(self, a, b):
             self.a = a
@@ -283,6 +285,8 @@ def mixin_first():
 
 @pytest.fixture
 def mixin_last():
+    """Return a class with the mix-in at the end of its MRO."""
+
     class BaseClass:
         def __init__(self, a, b):
             self.a = a
