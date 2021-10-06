@@ -23,7 +23,7 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Operating System :: OS Independent',
         'License :: OSI Approved :: MIT License',
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
