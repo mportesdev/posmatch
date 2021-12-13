@@ -12,7 +12,7 @@ Requirements
 Python 3.9 or higher.
 
 **Note:** Although this package can be installed and used in
-Python 3.9+, its usage only makes sense with the pattern matching
+Python 3.9+, its usage only makes sense with the structural pattern matching
 feature introduced in Python 3.10. All code snippets below require
 Python 3.10+.
 
@@ -33,27 +33,28 @@ The ``pos_match`` decorator
 
     from posmatch import pos_match
 
+
     @pos_match
     class Color:
+        def __init__(self, red, green, blue):
+            self.red = red
+            self.green = green
+            self.blue = blue
 
-        def __init__(self, r, g, b):
-            self.r = r
-            self.g = g
-            self.b = b
 
-    color = Color(64, 64, 64)
+    color = Color(0, 0, 128)
 
     match color:
-        case Color(0, 0, _):
-            print('Shade of blue')
-        case Color(red, green, blue) if red == green == blue:
+        case Color(r, g, b) if r == g == b:
             print('Shade of grey')
+        case Color(0, 0):
+            print('Shade of blue')
 
 Output:
 
 .. code::
 
-    Shade of grey
+    Shade of blue
 
 The ``PosMatchMeta`` metaclass
 ------------------------------
@@ -62,12 +63,13 @@ The ``PosMatchMeta`` metaclass
 
     from posmatch import PosMatchMeta
 
-    class Date(metaclass=PosMatchMeta):
 
+    class Date(metaclass=PosMatchMeta):
         def __init__(self, year, month, day):
             self.year = year
             self.month = month
             self.day = day
+
 
     date = Date(2121, 1, 1)
 
@@ -90,11 +92,12 @@ The ``PosMatchMixin`` mix-in class
 
     from posmatch import PosMatchMixin
 
-    class Rectangle(PosMatchMixin):
 
+    class Rectangle(PosMatchMixin):
         def __init__(self, width, height):
             self.width = width
             self.height = height
+
 
     shape = Rectangle(16, 16)
 
