@@ -4,11 +4,9 @@ setting the `__match_args__` class attribute.
 
 This module provides the following functions and classes:
 
-  pos_match       -    class decorator setting the `__match_args__`
-                       attribute
-  PosMatchMeta    -    metaclass setting the `__match_args__` attribute
-  PosMatchMixin   -    mix-in class setting the `__match_args__`
-                       attribute
+ pos_match      -  class decorator setting the `__match_args__` class attribute
+ PosMatchMeta   -  metaclass setting the `__match_args__` class attribute
+ PosMatchMixin  -  mix-in class setting the `__match_args__` class attribute
 """
 
 from functools import cache
@@ -16,7 +14,7 @@ import inspect
 
 
 def pos_match(cls=None, /, *, force=False):
-    """Decorator setting the `__match_args__` class attribute.
+    """Class decorator setting the `__match_args__` class attribute.
 
     `__match_args__` will contain a sequence of names equal to
     parameter names in the signature of `cls.__init__` (not including
@@ -33,10 +31,10 @@ def pos_match(cls=None, /, *, force=False):
         return cls
 
     if force:
-        # @pos_match(force=True) or equivalent usage
+        # @pos_match(force=True) usage
         return _set_match_args
 
-    # @pos_match(), @pos_match(force=False) or equivalent usage
+    # @pos_match() usage
     return pos_match
 
 
@@ -55,8 +53,15 @@ def _param_names_from_init(cls):
 
 
 class PosMatchMeta(type):
-    """Metaclass setting the `__match_args__` class attribute."""
+    """Metaclass setting the `__match_args__` class attribute.
 
+    `__match_args__` will contain a sequence of names equal to
+    parameter names in the signature of `cls.__init__` (not including
+    `self`).
+
+    If `cls` already has the `__match_args__` attribute (inherited or
+    defined on its own) it will not be set.
+    """
     def __new__(mcs, *args):
         cls = super().__new__(mcs, *args)
         if not hasattr(cls, '__match_args__'):
@@ -65,8 +70,12 @@ class PosMatchMeta(type):
 
 
 class PosMatchMixin:
-    """Mix-in class setting the `__match_args__` class attribute."""
+    """Mix-in class setting the `__match_args__` class attribute.
 
+    `__match_args__` is a property returning a sequence of names equal to
+    parameter names in the signature of `cls.__init__` (not including
+    `self`).
+    """
     @classmethod
     @property
     @cache
