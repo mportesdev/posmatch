@@ -8,16 +8,8 @@ from posmatch import pos_match, PosMatchMeta, PosMatchMixin
 if sys.version_info < (3, 10):
     collect_ignore = ['tests/test_matching.py']
 
-BY_DECORATOR = pytest.fixture(
-    params=['decorator', 'decorator call']
-)
 
-BY_ALL_MEANS = pytest.fixture(
-    params=['decorator', 'decorator call', 'metaclass', 'mix-in']
-)
-
-
-@BY_ALL_MEANS
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass', 'mix-in'])
 def simple_class(request):
 
     @pos_match
@@ -50,7 +42,7 @@ def simple_class(request):
     }[request.param]
 
 
-@BY_ALL_MEANS
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass', 'mix-in'])
 def six_pack_class(request):
     """Return a class with six kinds of args in signature.
     (positional-only, positional, packed positional, keyword-only,
@@ -102,7 +94,7 @@ def six_pack_class(request):
     }[request.param]
 
 
-@BY_ALL_MEANS
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass', 'mix-in'])
 def class_with_attr(request):
     """Return a class with the `__match_args__` attribute set."""
 
@@ -152,7 +144,7 @@ def class_with_attr(request):
     }[request.param]
 
 
-@BY_ALL_MEANS
+@pytest.fixture(params=['decorator', 'decorator call', 'metaclass', 'mix-in'])
 def class_with_inherited(request):
     """Return a class with the `__match_args__` attribute inherited."""
 
@@ -240,7 +232,7 @@ def forced_class(request):
     }[request.param]
 
 
-@BY_DECORATOR
+@pytest.fixture(params=['decorator', 'decorator call'])
 def data_class(request):
 
     @pos_match
