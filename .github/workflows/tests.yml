@@ -24,11 +24,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip setuptools wheel
-        pip install pytest
-        pip install .
-
     - name: Run tests
-      run: pytest --import-mode=append
+      run: |
+        pip install pytest
+        pytest
