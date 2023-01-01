@@ -1,4 +1,4 @@
-from posmatch.core import pos_match, PosMatchMeta, PosMatchMixin
+from posmatch.core import PosMatchMeta, PosMatchMixin, pos_match
 
 __version__ = '0.5.2'
 

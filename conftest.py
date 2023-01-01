@@ -1,6 +1,6 @@
 import pytest
 
-from posmatch import pos_match, PosMatchMeta, PosMatchMixin
+from posmatch import PosMatchMeta, PosMatchMixin, pos_match
 
 
 @pytest.fixture(params=['decorator', 'decorator call', 'metaclass', 'mix-in'])

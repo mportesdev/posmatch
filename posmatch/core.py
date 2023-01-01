@@ -9,8 +9,8 @@ This module provides the following functions and classes:
  PosMatchMixin  -  mix-in class setting the `__match_args__` class attribute
 """
 
-from functools import cache
 import inspect
+from functools import cache
 
 
 def pos_match(cls=None, /, *, force=False):
