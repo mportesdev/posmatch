@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import sys
 
 import pytest
@@ -229,29 +228,6 @@ def forced_class(request):
         'own': WithOwnMatchArgs,
         'inherited': WithInheritedMatchArgs,
         'none': WithNoMatchArgs,
-    }[request.param]
-
-
-@pytest.fixture(params=['decorator', 'decorator call'])
-def data_class(request):
-
-    @pos_match
-    @dataclass
-    class WithDecorator:
-        a: int
-        b: bool
-        c: str
-
-    @pos_match()
-    @dataclass
-    class WithDecoratorCall:
-        a: int
-        b: bool
-        c: str
-
-    return {
-        'decorator': WithDecorator,
-        'decorator call': WithDecoratorCall,
     }[request.param]
 
 
