@@ -210,7 +210,7 @@ def class_with_inherited_match_args(request):
         return _Cls
 
 
-@pytest.fixture(params=["own", "inherited", "no __match_args__"])
+@pytest.fixture(params=["own", "inherited", "no __match_args__", "manual decoration"])
 def class_with_force_true(request):
     """Return a class decorated with `@pos_match(force=True)`."""
 
@@ -257,6 +257,19 @@ def class_with_force_true(request):
                 self.y = b + 42
 
         return _Cls
+
+    if request.param == "manual decoration":
+
+        class _Cls:
+            def __init__(self, a, b):
+                self.a = a
+                self.b = b
+                self.x = a + 42
+                self.y = b + 42
+
+            __match_args__ = ("x", "y")
+
+        return pos_match(_Cls, force=True)
 
 
 @pytest.fixture

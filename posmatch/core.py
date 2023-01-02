@@ -10,7 +10,7 @@ This module provides the following functions and classes:
 """
 
 import inspect
-from functools import cache
+from functools import cache, partial
 
 
 def pos_match(cls=None, /, *, force=False):
@@ -24,25 +24,17 @@ def pos_match(cls=None, /, *, force=False):
     defined on its own) it will not be set, unless `force` is set to
     True.
     """
-    if cls:
-        # @pos_match usage
-        if not hasattr(cls, "__match_args__"):
-            _set_match_args(cls)
-        return cls
+    if cls is None:
+        # @pos_match() or @pos_match(force=True) usage
+        return partial(pos_match, force=force)
 
-    if force:
-        # @pos_match(force=True) usage
-        return _set_match_args
-
-    # @pos_match() usage
-    return pos_match
+    if not hasattr(cls, "__match_args__") or force:
+        _set_match_args(cls)
+    return cls
 
 
 def _set_match_args(cls):
     cls.__match_args__ = _param_names_from_init(cls)
-
-    # also return the class so this function can be used as a decorator
-    return cls
 
 
 def _param_names_from_init(cls):
