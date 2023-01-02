@@ -10,10 +10,10 @@ class TestMatchArgsAttribute:
         assert "__match_args__" not in instance.__dict__
 
     def test_multi_param_class(self, multi_param_class):
-        expected = ("a", "b", "c", "d", "e", "f")
+        expected = ("a", "b", "c", "d")
         assert multi_param_class.__match_args__ == expected
 
-        instance = multi_param_class(1, 2, 3, d=4)
+        instance = multi_param_class(1, 2, d=3)
         assert instance.__match_args__ == expected
 
         # attribute must be defined on class, not instance

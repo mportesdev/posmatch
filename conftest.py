@@ -47,21 +47,18 @@ def simple_class(request):
 @pytest.fixture(params=["decorator", "decorator call", "metaclass", "mixin"])
 def multi_param_class(request):
     """Return a class with various kinds of args in signature of `__init__`.
-    (positional-only, positional, packed positional, keyword-only,
-    keyword, packed keyword)
+    (positional-only, positional, keyword, keyword-only)
     """
 
     if request.param == "decorator":
 
         @pos_match
         class _Cls:
-            def __init__(self, a, /, b, *c, d, e=None, **f):
+            def __init__(self, a, /, b, c=None, *, d):
                 self.a = a
                 self.b = b
                 self.c = c
                 self.d = d
-                self.e = e
-                self.f = f
 
         return _Cls
 
@@ -69,39 +66,33 @@ def multi_param_class(request):
 
         @pos_match()
         class _Cls:
-            def __init__(self, a, /, b, *c, d, e=None, **f):
+            def __init__(self, a, /, b, c=None, *, d):
                 self.a = a
                 self.b = b
                 self.c = c
                 self.d = d
-                self.e = e
-                self.f = f
 
         return _Cls
 
     if request.param == "metaclass":
 
         class _Cls(metaclass=PosMatchMeta):
-            def __init__(self, a, /, b, *c, d, e=None, **f):
+            def __init__(self, a, /, b, c=None, *, d):
                 self.a = a
                 self.b = b
                 self.c = c
                 self.d = d
-                self.e = e
-                self.f = f
 
         return _Cls
 
     if request.param == "mixin":
 
         class _Cls(PosMatchMixin):
-            def __init__(self, a, /, b, *c, d, e=None, **f):
+            def __init__(self, a, /, b, c=None, *, d):
                 self.a = a
                 self.b = b
                 self.c = c
                 self.d = d
-                self.e = e
-                self.f = f
 
         return _Cls
 

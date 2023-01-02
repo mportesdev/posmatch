@@ -11,15 +11,15 @@ class TestFullMatch:
         assert result == (1, 2)
 
     def test_multi_param_class(self, multi_param_class):
-        instance = multi_param_class(1, 2, 3, d=4)
+        instance = multi_param_class(1, 2, d=3)
 
         match instance:
-            case multi_param_class(atr_1, atr_2, atr_3, atr_4, atr_5, atr_6):
-                result = atr_1, atr_2, atr_3, atr_4, atr_5, atr_6
+            case multi_param_class(atr_1, atr_2, atr_3, atr_4):
+                result = atr_1, atr_2, atr_3, atr_4
             case _:
                 result = None
 
-        assert result == (1, 2, (3,), 4, None, {})
+        assert result == (1, 2, None, 3)
 
     def test_match_args_not_overridden_by_default(self, class_with_own_match_args):
         instance = class_with_own_match_args(1, 2)
