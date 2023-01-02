@@ -26,7 +26,7 @@ def pos_match(cls=None, /, *, force=False):
     """
     if cls:
         # @pos_match usage
-        if not hasattr(cls, '__match_args__'):
+        if not hasattr(cls, "__match_args__"):
             _set_match_args(cls)
         return cls
 
@@ -62,9 +62,10 @@ class PosMatchMeta(type):
     If `cls` already has the `__match_args__` attribute (inherited or
     defined on its own) it will not be set.
     """
+
     def __new__(mcs, *args):
         cls = super().__new__(mcs, *args)
-        if not hasattr(cls, '__match_args__'):
+        if not hasattr(cls, "__match_args__"):
             _set_match_args(cls)
         return cls
 
@@ -76,6 +77,7 @@ class PosMatchMixin:
     parameter names in the signature of `cls.__init__` (not including
     `self`).
     """
+
     @classmethod
     @property
     @cache

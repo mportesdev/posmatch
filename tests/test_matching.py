@@ -1,5 +1,4 @@
 class TestPatternMatching:
-
     def test_simple_class(self, simple_class):
         instance = simple_class(1, 2)
 
@@ -96,7 +95,6 @@ class TestPatternMatching:
 
 
 class TestPatternMatchingWithFewerSubPatterns:
-
     def test_simple_class(self, simple_class):
         instance = simple_class(0, 1)
 
