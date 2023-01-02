@@ -3,7 +3,7 @@ import pytest
 from posmatch import PosMatchMeta, PosMatchMixin, pos_match
 
 
-@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mix-in"])
+@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mixin"])
 def simple_class(request):
     if request.param == "decorator":
 
@@ -34,7 +34,7 @@ def simple_class(request):
 
         return _Cls
 
-    if request.param == "mix-in":
+    if request.param == "mixin":
 
         class _Cls(PosMatchMixin):
             def __init__(self, a, b):
@@ -44,9 +44,9 @@ def simple_class(request):
         return _Cls
 
 
-@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mix-in"])
-def six_pack_class(request):
-    """Return a class with six kinds of args in signature.
+@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mixin"])
+def multi_param_class(request):
+    """Return a class with various kinds of args in signature of `__init__`.
     (positional-only, positional, packed positional, keyword-only,
     keyword, packed keyword)
     """
@@ -92,7 +92,7 @@ def six_pack_class(request):
 
         return _Cls
 
-    if request.param == "mix-in":
+    if request.param == "mixin":
 
         class _Cls(PosMatchMixin):
             def __init__(self, a, /, b, *c, d, e=None, **f):
@@ -106,8 +106,8 @@ def six_pack_class(request):
         return _Cls
 
 
-@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mix-in"])
-def class_with_attr(request):
+@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mixin"])
+def class_with_own_match_args(request):
     """Return a class with the `__match_args__` attribute set."""
 
     if request.param == "decorator":
@@ -151,7 +151,7 @@ def class_with_attr(request):
 
         return _Cls
 
-    if request.param == "mix-in":
+    if request.param == "mixin":
 
         class _Cls(PosMatchMixin):
             def __init__(self, a, b):
@@ -165,8 +165,8 @@ def class_with_attr(request):
         return _Cls
 
 
-@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mix-in"])
-def class_with_inherited(request):
+@pytest.fixture(params=["decorator", "decorator call", "metaclass", "mixin"])
+def class_with_inherited_match_args(request):
     """Return a class with the `__match_args__` attribute inherited."""
 
     class BaseClass:
@@ -208,7 +208,7 @@ def class_with_inherited(request):
 
         return _Cls
 
-    if request.param == "mix-in":
+    if request.param == "mixin":
 
         class _Cls(BaseClass, PosMatchMixin):
             def __init__(self, x, y):
@@ -219,8 +219,8 @@ def class_with_inherited(request):
         return _Cls
 
 
-@pytest.fixture(params=["own", "inherited", "none"])
-def forced_class(request):
+@pytest.fixture(params=["own", "inherited", "no __match_args__"])
+def class_with_force_true(request):
     """Return a class decorated with `@pos_match(force=True)`."""
 
     if request.param == "own":
@@ -255,7 +255,7 @@ def forced_class(request):
 
         return _Cls
 
-    if request.param == "none":
+    if request.param == "no __match_args__":
 
         @pos_match(force=True)
         class _Cls:
@@ -279,13 +279,13 @@ def mixin_first():
 
         __match_args__ = ("a", "b")
 
-    class MixinFirst(PosMatchMixin, BaseClass):
+    class _Cls(PosMatchMixin, BaseClass):
         def __init__(self, x, y):
             super().__init__(x, y)
             self.x = self.a + 42
             self.y = self.b + 42
 
-    return MixinFirst
+    return _Cls
 
 
 @pytest.fixture
@@ -299,10 +299,10 @@ def mixin_last():
 
         __match_args__ = ("a", "b")
 
-    class MixinLast(BaseClass, PosMatchMixin):
+    class _Cls(BaseClass, PosMatchMixin):
         def __init__(self, x, y):
             super().__init__(x, y)
             self.x = self.a + 42
             self.y = self.b + 42
 
-    return MixinLast
+    return _Cls
