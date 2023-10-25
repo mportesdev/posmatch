@@ -19,3 +19,6 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
+
+[tool.bandit.assert_used]
+skips = ["tests/*"]
