@@ -10,7 +10,7 @@ This module provides the following functions and classes:
 """
 
 import inspect
-from functools import cache, partial
+from functools import partial
 
 
 def pos_match(cls=None, /, *, force=False):
@@ -62,16 +62,17 @@ class PosMatchMeta(type):
         return cls
 
 
+class _InitParamsGetter:
+    def __get__(self, instance, owner):
+        return _param_names_from_init(owner)
+
+
 class PosMatchMixin:
     """Mix-in class setting the `__match_args__` class attribute.
 
-    `__match_args__` is a property returning a sequence of names equal to
-    parameter names in the signature of `cls.__init__` (not including
-    `self`).
+    `__match_args__` is an attribute getter (non-data descriptor) that
+    returns a sequence of names equal to parameter names in the
+    signature of the class' `__init__` (not including `self`).
     """
 
-    @classmethod
-    @property
-    @cache
-    def __match_args__(cls):
-        return _param_names_from_init(cls)
+    __match_args__ = _InitParamsGetter()
