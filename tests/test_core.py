@@ -71,7 +71,7 @@ class TestMatchArgsAttribute:
         # attribute must be defined on class, not instance
         assert "__match_args__" not in vars(instance)
 
-    def test_repeated_access_to_class_property_of_mixin(self, mixin_first):
+    def test_repeated_access_to_mixin_getter(self, mixin_first):
         expected = ("x", "y")
         assert mixin_first.__match_args__ == expected
 

@@ -64,7 +64,9 @@ class PosMatchMeta(type):
 
 class _InitParamsGetter:
     def __get__(self, instance, owner):
-        return _param_names_from_init(owner)
+        result = _param_names_from_init(owner)
+        owner.__match_args__ = result
+        return result
 
 
 class PosMatchMixin:
