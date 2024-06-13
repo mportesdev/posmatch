@@ -67,7 +67,7 @@ class TestFullMatch:
             case _:
                 pytest.fail("Instance did not match pattern")
 
-    def test_repeated_access_to_class_property_of_mixin(self, mixin_first):
+    def test_repeated_access_to_mixin_getter(self, mixin_first):
         instance = mixin_first(1, 2)
 
         match instance:
