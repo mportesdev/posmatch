@@ -46,8 +46,9 @@ def simple_class(request):
 
 @pytest.fixture(params=["decorator", "decorator call", "metaclass", "mixin"])
 def multi_param_class(request):
-    """Return a class with various kinds of args in signature of `__init__`.
-    (positional-only, positional, keyword, keyword-only)
+    """Return a class with different kinds of parameters in the
+    signature of `__init__`. (positional-only, positional, keyword,
+    keyword-only)
     """
 
     if request.param == "decorator":

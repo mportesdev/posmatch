@@ -1,12 +1,12 @@
 """
-Enable positional sub-pattern matching for objects of a custom class by
-setting the `__match_args__` class attribute.
+Enable positional sub-pattern matching for objects of custom classes by
+defining the `__match_args__` class attribute.
 
 This module provides the following functions and classes:
 
- pos_match      -  class decorator setting the `__match_args__` class attribute
- PosMatchMeta   -  metaclass setting the `__match_args__` class attribute
- PosMatchMixin  -  mix-in class setting the `__match_args__` class attribute
+    pos_match      -  class decorator defining the `__match_args__` class attribute
+    PosMatchMeta   -  metaclass defining the `__match_args__` class attribute
+    PosMatchMixin  -  mix-in class defining the `__match_args__` class attribute
 """
 
 import inspect
@@ -14,15 +14,15 @@ from functools import partial
 
 
 def pos_match(cls=None, /, *, force=False):
-    """Class decorator setting the `__match_args__` class attribute.
+    """Class decorator defining the `__match_args__` class attribute.
 
     `__match_args__` will contain a sequence of names equal to
     parameter names in the signature of `cls.__init__` (not including
     `self`).
 
     If `cls` already has the `__match_args__` attribute (inherited or
-    defined on its own) it will not be set, unless `force` is set to
-    True.
+    defined on its own) it will not be overwritten unless `force` is
+    set to True.
     """
     if cls is None:
         # @pos_match() or @pos_match(force=True) usage
@@ -45,14 +45,14 @@ def _param_names_from_init(cls):
 
 
 class PosMatchMeta(type):
-    """Metaclass setting the `__match_args__` class attribute.
+    """Metaclass defining the `__match_args__` class attribute.
 
     `__match_args__` will contain a sequence of names equal to
-    parameter names in the signature of `cls.__init__` (not including
-    `self`).
+    parameter names in the signature of the class' `__init__` method
+    (not including `self`).
 
-    If `cls` already has the `__match_args__` attribute (inherited or
-    defined on its own) it will not be set.
+    If the class already has the `__match_args__` attribute (inherited
+    or defined on its own) it will not be overwritten.
     """
 
     def __new__(mcs, *args):
@@ -70,11 +70,11 @@ class _InitParamsGetter:
 
 
 class PosMatchMixin:
-    """Mix-in class setting the `__match_args__` class attribute.
+    """Mix-in class defining the `__match_args__` class attribute.
 
-    `__match_args__` is an attribute getter (non-data descriptor) that
-    returns a sequence of names equal to parameter names in the
-    signature of the class' `__init__` (not including `self`).
+    `__match_args__` will contain a sequence of names equal to
+    parameter names in the signature of the class' `__init__` method
+    (not including `self`).
     """
 
     __match_args__ = _InitParamsGetter()
