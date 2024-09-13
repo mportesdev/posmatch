@@ -14,19 +14,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.10', '3.11', '3.12', '3.13']
+        python-version:
+          - ['3.10', 'py310']
+          - ['3.11', 'py311']
+          - ['3.12', 'py312']
+          - ['3.13', 'py313']
+          - ['pypy3.10', 'pypy310']
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version[0] }}
       uses: actions/setup-python@v5
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version[0] }}
         allow-prereleases: true
 
     - name: Run tests
       run: |
-        pip install .
-        pip install pytest
-        pytest
+        pip install tox
+        tox run -e ${{ matrix.python-version[1] }}
