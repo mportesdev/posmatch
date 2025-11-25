@@ -24,7 +24,7 @@ jobs:
           - ['pypy3.11', 'pypy311']
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Set up Python ${{ matrix.python-version[0] }}
       uses: actions/setup-python@v6
